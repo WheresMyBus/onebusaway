@@ -10,19 +10,31 @@ module OneBusAway
     attr_writer :api_key
 
     def agency(id)
-      response = request("agency/#{id}")
-      Agency.new(response['data']['entry'])
+      response = request "agency/#{id}"
+      Agency.new response['data']['entry']
+    end
+
+    def agencies_with_coverage
+      response = request 'agencies-with-coverage'
+      agencies = referenced_agencies response
+      AgencyWithCoverage.collect agencies, response['data']['list']
     end
 
     private
 
     def request(call, options = {})
-      raise 'API key not set!' unless @api_key
+      options[:key] = @api_key || 'TEST'
+      response = HTTParty.get "#{BASE_URL}#{call}.json", query: options
+      JSON.parse response.body
+    end
 
-      options[:key] = @api_key
+    def references(response, type = nil)
+      references = response['data']['references']
+      references.fetch type, references
+    end
 
-      response = HTTParty.get("#{BASE_URL}#{call}.json", query: options)
-      JSON.parse(response.body)
+    def referenced_agencies(response)
+      Agency.collect references(response, 'agencies')
     end
   end
 end

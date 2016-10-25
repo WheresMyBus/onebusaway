@@ -23,5 +23,9 @@ module OneBusAway
       @timezone = attributes['timezone']
       @url = attributes['url']
     end
+
+    def self.collect(array)
+      array.map { |attributes| new attributes }
+    end
   end
 end
