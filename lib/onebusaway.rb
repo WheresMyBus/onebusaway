@@ -5,8 +5,6 @@ end
 
 module OneBusAway
   class << self
-    BASE_URL = 'http://api.onebusaway.org/api/where/'.freeze
-
     attr_writer :api_key
 
     def agency(id)
@@ -20,7 +18,14 @@ module OneBusAway
       AgencyWithCoverage.collect agencies, response['data']['list']
     end
 
+    def arrivals_and_departures_for_stop(id)
+      response = request "arrivals-and-departures-for-stop/#{id}"
+
+    end
+
     private
+
+    BASE_URL = 'http://api.onebusaway.org/api/where/'.freeze
 
     def request(call, options = {})
       options[:key] = @api_key || 'TEST'
