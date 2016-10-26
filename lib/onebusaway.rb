@@ -12,20 +12,52 @@ module OneBusAway
       Agency.new response['data']['entry']
     end
 
-    # def agencies_with_coverage
-    #   response = request 'agencies-with-coverage'
-    #   agencies = referenced_agencies response
-    #   AgencyWithCoverage.collect agencies, response['data']['list']
-    # end
+    def agencies_with_coverage
+      response = request 'agencies-with-coverage'
+      agencies = referenced_agencies response
+      AgencyWithCoverage.collect agencies, response['data']['list']
+    end
 
-    # def arrivals_and_departures_for_stop(id)
-    #   response = request "arrivals-and-departures-for-stop/#{id}"
+    # def arrivals_and_departures_for_stop(id,
+    #                                      minutes_before = nil,
+    #                                      minutes_after = nil,
+    #                                      time = nil)
+    #   options = {}
+    #   options['minutesBefore'] = minutes_before if minutes_before
+    #   options['minutesAfter'] = minutes_after if minutes_after
+    #   options['time'] = time.to_i if time
 
+    #   response = request "arrivals-and-departures-for-stop/#{id}", options
+
+    #   puts response.inspect
     # end
 
     def route(id)
       response = request "route/#{id}"
       Route.new response['data']['entry']
+    end
+
+    def routes_for_agency(id)
+      response = request "routes-for-agency/#{id}"
+      Route.collect response['data']['list']
+    end
+
+    def routes_for_location(location,
+                            span: nil,
+                            radius: nil,
+                            query: nil)
+      options = location.to_hash
+      options.merge! span.to_hash if span
+      options['radius'] = radius if radius
+      options['query'] = query if query
+
+      response = request 'routes-for-location'
+      Route.collect response['data']['list']
+    end
+
+    def route_ids_for_agency(id)
+      response = request "route-ids-for-agency/#{id}"
+      response['data']['list']
     end
 
     def shape(id)
@@ -43,8 +75,12 @@ module OneBusAway
       Trip.new response['data']['entry']
     end
 
-    # def vehicles_for_agency(id)
-    #   response = request "vehicles-for-agency/#{id}"
+    # def vehicles_for_agency(id, time = nil)
+    #   options = {}
+    #   options['time'] = time.to_i if time
+
+    #   response = request "vehicles-for-agency/#{id}", options
+
 
     # end
 
@@ -63,8 +99,29 @@ module OneBusAway
       references.fetch type, references
     end
 
+    def referenced_objects(response)
+      {
+        'agencies' => referenced_agencies(response),
+        'routes' => referenced_routes(response),
+        'stops' => referenced_stops(response),
+        'trips' => referenced_trips(response)
+      }
+    end
+
     def referenced_agencies(response)
       Agency.collect references(response, 'agencies')
+    end
+
+    def referenced_routes(response)
+      Route.collect references(response, 'routes')
+    end
+
+    def referenced_stops(response)
+      Stop.collect references(response, 'stops')
+    end
+
+    def referenced_trips(response)
+      Trip.collect references(response, 'trips')
     end
   end
 end

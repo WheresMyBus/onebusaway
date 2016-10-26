@@ -3,15 +3,13 @@ require_relative 'base'
 module OneBusAway
   class AgencyWithCoverage < Base
     attr_reader :agency,
-                :lat,
-                :lon,
+                :location,
                 :lat_span,
                 :lon_span
 
     def initialize(agency, attributes)
       @agency = agency
-      @lat = attributes['lat']
-      @lon = attributes['lon']
+      @location = Location.new attributes
       @lat_span = attributes['latSpan']
       @lon_span = attributes['lonSpan']
     end

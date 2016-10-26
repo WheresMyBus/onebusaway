@@ -8,5 +8,12 @@ module OneBusAway
       @lat = attributes['lat']
       @lon = attributes['lon']
     end
+
+    def to_hash
+      {
+        'lat' => lat,
+        'lon' => lon
+      }
+    end
   end
 end

@@ -5,7 +5,7 @@ module OneBusAway
     attr_reader :length, :points
 
     def initialize(attributes)
-      @length = attributes['length'].to_i
+      @length = attributes['length']
       @points = attributes['points']
     end
   end
