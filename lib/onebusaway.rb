@@ -12,16 +12,31 @@ module OneBusAway
       Agency.new response['data']['entry']
     end
 
-    def agencies_with_coverage
-      response = request 'agencies-with-coverage'
-      agencies = referenced_agencies response
-      AgencyWithCoverage.collect agencies, response['data']['list']
+    # def agencies_with_coverage
+    #   response = request 'agencies-with-coverage'
+    #   agencies = referenced_agencies response
+    #   AgencyWithCoverage.collect agencies, response['data']['list']
+    # end
+
+    # def arrivals_and_departures_for_stop(id)
+    #   response = request "arrivals-and-departures-for-stop/#{id}"
+
+    # end
+
+    def route(id)
+      response = request "route/#{id}"
+      Route.new response['data']['entry']
     end
 
-    def arrivals_and_departures_for_stop(id)
-      response = request "arrivals-and-departures-for-stop/#{id}"
-
+    def trip(id)
+      response = request "trip/#{id}"
+      Trip.new response['data']['entry']
     end
+
+    # def vehicles_for_agency(id)
+    #   response = request "vehicles-for-agency/#{id}"
+
+    # end
 
     private
 
