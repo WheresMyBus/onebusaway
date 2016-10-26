@@ -28,6 +28,16 @@ module OneBusAway
       Route.new response['data']['entry']
     end
 
+    def shape(id)
+      response = request "shape/#{id}"
+      Shape.new response['data']['entry']
+    end
+
+    def stop(id)
+      response = request "stop/#{id}"
+      Stop.new response['data']['entry']
+    end
+
     def trip(id)
       response = request "trip/#{id}"
       Trip.new response['data']['entry']

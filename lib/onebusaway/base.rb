@@ -1,11 +1,7 @@
-require 'date'
+require_relative 'helpers'
 
 module OneBusAway
   class Base
-    private
-
-    def get_time(timestamp)
-      DateTime.strptime(timestamp, '%s')
-    end
+    include Helpers
   end
 end

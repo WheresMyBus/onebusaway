@@ -1,5 +1,7 @@
+require_relative 'base'
+
 module OneBusAway
-  class AgencyWithCoverage
+  class AgencyWithCoverage < Base
     attr_reader :agency,
                 :lat,
                 :lon,

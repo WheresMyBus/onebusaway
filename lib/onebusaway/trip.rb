@@ -1,3 +1,5 @@
+require_relative 'base'
+
 module OneBusAway
   class Trip < Base
     attr_reader :direction_id,

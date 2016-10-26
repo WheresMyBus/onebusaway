@@ -1,3 +1,5 @@
+require_relative 'base'
+
 module OneBusAway
   class Location < Base
     attr_reader :lat, :lon

@@ -1,5 +1,7 @@
+require_relative 'base'
+
 module OneBusAway
-  class Agency
+  class Agency < Base
     attr_reader :disclaimer,
                 :email,
                 :fare_url,

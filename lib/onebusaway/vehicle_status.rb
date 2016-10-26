@@ -1,3 +1,5 @@
+require_relative 'base'
+
 module OneBusAway
   class VehicleStatus < Base
     attr_reader :last_location_update_time,

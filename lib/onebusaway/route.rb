@@ -1,3 +1,5 @@
+require_relative 'base'
+
 module OneBusAway
   class Route < Base
     attr_reader :agency_id,

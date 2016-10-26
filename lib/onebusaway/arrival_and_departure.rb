@@ -1,3 +1,5 @@
+require_relative 'base'
+
 module OneBusAway
   class ArrivalAndDeparture < Base
     attr_reader :arrival_enabled,
