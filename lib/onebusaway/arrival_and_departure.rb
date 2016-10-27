@@ -38,7 +38,7 @@ module OneBusAway
       @route_short_name = attributes['routeShortName']
       @scheduled_arrival_time = get_time attributes['scheduledArrivalTime']
       @scheduled_departure_time = get_time attributes['scheduledDepartureTime']
-      @service_date = get_time(attributes['serviceDate']).to_date
+      @service_date = get_date attributes['serviceDate']
       @stop_id = attributes['stopId']
       @stop_sequence = attributes['stopSequence']
       @trip_headsign = attributes['tripHeadsign']

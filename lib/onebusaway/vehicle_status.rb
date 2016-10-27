@@ -12,9 +12,9 @@ module OneBusAway
     def initialize(attributes)
       @last_location_update_time = get_time attributes['lastLocationUpdateTime']
       @last_update = get_time attributes['lastUpdateTime']
-      @location = Location.new attributes['location']
+      @location = Location.new attributes['location'] if attributes['location']
       @trip_id = attributes['tripId']
-      @trip_status = TripStatus.new attributes['tripStatus']
+      @trip_status = TripStatus.new attributes['tripStatus'] if attributes['tripStatus']
       @vehicle_id = attributes['vehicleId']
     end
 
