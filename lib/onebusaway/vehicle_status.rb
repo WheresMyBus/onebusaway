@@ -17,5 +17,9 @@ module OneBusAway
       @trip_status = TripStatus.new attributes['tripStatus']
       @vehicle_id = attributes['vehicleId']
     end
+
+    def self.collect(array)
+      array.map { |attributes| new attributes }
+    end
   end
 end

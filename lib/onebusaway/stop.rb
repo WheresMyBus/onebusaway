@@ -15,11 +15,15 @@ module OneBusAway
       @code = attributes['code']
       @direction = attributes['direction']
       @id = attributes['id']
-      @location = nil # fix
-      @location_type = location_type
-      @name = name
-      @route_ids = route_ids
-      @wheelchair_boarding = wheelchair_boarding
+      @location = Location.new attributes
+      @location_type = attributes['locationType']
+      @name = attributes['name']
+      @route_ids = attributes['routeIds']
+      @wheelchair_boarding = attributes['wheelchairBoarding']
+    end
+
+    def self.collect(array)
+      array.map { |attributes| new attributes }
     end
   end
 end

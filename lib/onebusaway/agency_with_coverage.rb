@@ -4,14 +4,12 @@ module OneBusAway
   class AgencyWithCoverage < Base
     attr_reader :agency,
                 :location,
-                :lat_span,
-                :lon_span
+                :span
 
     def initialize(agency, attributes)
       @agency = agency
       @location = Location.new attributes
-      @lat_span = attributes['latSpan']
-      @lon_span = attributes['lonSpan']
+      @span = Span.new attributes
     end
 
     def self.collect(agencies, array)

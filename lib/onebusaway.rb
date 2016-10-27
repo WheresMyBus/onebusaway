@@ -5,6 +5,8 @@ end
 
 module OneBusAway
   class << self
+    include Helpers
+
     attr_writer :api_key
 
     def agency(id)
@@ -32,6 +34,11 @@ module OneBusAway
     #   puts response.inspect
     # end
 
+    def current_time
+      response = request 'current-time'
+      get_time response['data']['entry']['time']
+    end
+
     def route(id)
       response = request "route/#{id}"
       Route.new response['data']['entry']
@@ -43,15 +50,15 @@ module OneBusAway
     end
 
     def routes_for_location(location,
-                            span: nil,
                             radius: nil,
+                            span: nil,
                             query: nil)
       options = location.to_hash
-      options.merge! span.to_hash if span
       options['radius'] = radius if radius
+      options.merge! span.to_hash if span
       options['query'] = query if query
 
-      response = request 'routes-for-location'
+      response = request 'routes-for-location', options
       Route.collect response['data']['list']
     end
 
@@ -70,19 +77,41 @@ module OneBusAway
       Stop.new response['data']['entry']
     end
 
+    def stops_for_location(location,
+                           radius: nil,
+                           span: nil,
+                           query: nil)
+      options = location.to_hash
+      options['radius'] = radius if radius
+      options.merge! span.to_hash if span
+      options['query'] = query if query
+
+      response = request 'stops-for-location', options
+      Stop.collect response['data']['list']
+    end
+
+    def stop_ids_for_agency(id)
+      response = request "stop-ids-for-agency/#{id}"
+      response['data']['list']
+    end
+
+    def stop_ids_for_route(id)
+      response = request "stops-for-route/#{id}"
+      response['data']['entry']['stopIds']
+    end
+
     def trip(id)
       response = request "trip/#{id}"
       Trip.new response['data']['entry']
     end
 
-    # def vehicles_for_agency(id, time = nil)
-    #   options = {}
-    #   options['time'] = time.to_i if time
+    def vehicles_for_agency(id, time: nil)
+      options = {}
+      options['time'] = time.to_i * 1000 if time
 
-    #   response = request "vehicles-for-agency/#{id}", options
-
-
-    # end
+      response = request "vehicles-for-agency/#{id}", options
+      VehicleStatus.collect response['data']['list']
+    end
 
     private
 
