@@ -95,7 +95,7 @@ module OneBusAway
       response['data']['list']
     end
 
-    def stop_ids_for_route(id)
+    def stops_for_route(id)
       response = request "stops-for-route/#{id}"
       response['data']['entry']['stopIds']
     end
@@ -105,9 +105,26 @@ module OneBusAway
       Trip.new response['data']['entry']
     end
 
+    def trip_details(id,
+                     service_date: nil,
+                     include_trip: true,
+                     include_schedule: true,
+                     include_status: true,
+                     time: nil)
+      options = {}
+      options['serviceDate'] = get_timestamp service_date if service_date
+      options['includeTrip'] = include_trip
+      options['includeSchedule'] = include_schedule
+      options['includeStatus'] = include_status
+      options['time'] = get_timestamp time if time
+
+      response = request "trip-details/#{id}"
+      TripDetails.new response['data']['entry']
+    end
+
     def vehicles_for_agency(id, time: nil)
       options = {}
-      options['time'] = time.to_i * 1000 if time
+      options['time'] = get_timestamp time if time
 
       response = request "vehicles-for-agency/#{id}", options
       VehicleStatus.collect response['data']['list']
