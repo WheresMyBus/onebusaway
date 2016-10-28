@@ -2,6 +2,8 @@ require_relative 'base'
 
 module OneBusAway
   class Stop < Base
+    extend Collector
+
     attr_reader :code,
                 :direction,
                 :id,
@@ -20,10 +22,6 @@ module OneBusAway
       @name = attributes['name']
       @route_ids = attributes['routeIds']
       @wheelchair_boarding = attributes['wheelchairBoarding']
-    end
-
-    def self.collect(array)
-      array.map { |attributes| new attributes }
     end
   end
 end

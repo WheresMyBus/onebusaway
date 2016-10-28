@@ -2,6 +2,8 @@ require_relative 'base'
 
 module OneBusAway
   class ArrivalAndDeparture < Base
+    extend Collector
+
     attr_reader :arrival_enabled,
                 :block_trip_sequence,
                 :departure_enabled,
@@ -18,17 +20,17 @@ module OneBusAway
                 :scheduled_departure_time,
                 :service_date,
                 :stop_id,
-                :stop_sequence,
+                :stopSequence,
                 :trip_headsign,
                 :trip_id,
                 :trip_status
 
-    def initialize(attributes, frequency, trip_status)
+    def initialize(attributes)
       @arrival_enabled = attributes['arrivalEnabled']
       @block_trip_sequence = attributes['blockTripSequence']
       @departure_enabled = attributes['departureEnabled']
       @distance_from_stop = attributes['distanceFromStop']
-      @frequency = frequency
+      @frequency = Frequency.new attributes['frequency'] if attributes['frequency']
       @number_of_stops_away = attributes['numberofStopsAway']
       @predicted = attributes['predicted']
       @predicted_arrival_time = get_time attributes['predictedArrivalTime']
@@ -43,7 +45,7 @@ module OneBusAway
       @stop_sequence = attributes['stopSequence']
       @trip_headsign = attributes['tripHeadsign']
       @trip_id = attributes['tripId']
-      @trip_status = trip_status
+      @trip_status = TripStatus.new attributes['tripStatus'] if attributes['tripStatus']
     end
   end
 end

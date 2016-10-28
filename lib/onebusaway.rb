@@ -20,23 +20,104 @@ module OneBusAway
       AgencyWithCoverage.collect agencies, response['data']['list']
     end
 
-    # def arrivals_and_departures_for_stop(id,
-    #                                      minutes_before = nil,
-    #                                      minutes_after = nil,
-    #                                      time = nil)
-    #   options = {}
-    #   options['minutesBefore'] = minutes_before if minutes_before
-    #   options['minutesAfter'] = minutes_after if minutes_after
-    #   options['time'] = time.to_i if time
+    def arrival_and_departure_for_stop(id,
+                                       trip_id,
+                                       service_date,
+                                       vehicle_id: nil,
+                                       stop_sequence: nil,
+                                       time: nil)
+      options = {}
+      options['tripId'] = trip_id
+      options['serviceDate'] = get_timestamp service_date
+      options['vehicleId'] = vehicle_id if vehicle_id
+      options['stopSequence'] = stop_sequence if stop_sequence
+      options['time'] = get_timestamp time if time
 
-    #   response = request "arrivals-and-departures-for-stop/#{id}", options
+      response = request "arrival-and-departure-for-stop/#{id}", options
+      ArrivalAndDeparture.new response['data']['entry']
+    end
 
-    #   puts response.inspect
-    # end
+    def arrivals_and_departures_for_stop(id,
+                                         minutes_before: nil,
+                                         minutes_after: nil,
+                                         time: nil)
+      options = {}
+      options['minutesBefore'] = minutes_before if minutes_before
+      options['minutesAfter'] = minutes_after if minutes_after
+      options['time'] = get_timestamp time if time
+
+      response = request "arrivals-and-departures-for-stop/#{id}", options
+      ArrivalAndDeparture.collect response['data']['entry']['arrivalsAndDepartures']
+    end
+
+    def cancel_alarm(id)
+      reqest "cancel-alarm/#{id}"
+    end
 
     def current_time
       response = request 'current-time'
       get_time response['data']['entry']['time']
+    end
+
+    def register_alarm_for_arrival_and_departure_at_stop(id,
+                                                         trip_id,
+                                                         service_date,
+                                                         vehicle_id,
+                                                         stop_sequence,
+                                                         url,
+                                                         alarm_time_offset: nil,
+                                                         on_arrival: false)
+      options = {}
+      options['tripId'] = trip_id
+      options['serviceDate'] = get_timestamp service_date
+      options['vehicleId'] = vehicle_id
+      options['stopSequence'] = stop_sequence
+      options['url'] = url
+      options['alarmTimeOffset'] = alarm_time_offset if alarm_time_offset
+      options['onArrival'] = on_arrival
+
+      response = request "register-alarm-for-arrival-and-departure-at-stop/#{id}", options
+      RegisteredAlarm.new response['data']['entry']
+    end
+
+    def report_problem_with_stop(stop_id,
+                                 code: nil,
+                                 user_comment: nil,
+                                 user_location: nil,
+                                 user_location_accuracy: nil)
+      options = {}
+      options['code'] = code if code
+      options['userComment'] = user_comment if user_comment
+      options['userLat'] = user_location.lat if user_location
+      options['userLon'] = user_location.lon if user_location
+      options['userLocationAccuracy'] = user_location_accuracy if user_location_accuracy
+
+      request "report-problem-with-stop/#{stop_id}", options
+    end
+
+    def report_problem_with_trip(trip_id,
+                                 service_date: nil,
+                                 vehicle_id: nil,
+                                 stop_id: nil,
+                                 code: nil,
+                                 user_comment: nil,
+                                 user_on_vehicle: nil,
+                                 user_vehicle_number: nil,
+                                 user_location: nil,
+                                 user_location_accuracy: nil)
+      options = {}
+      options['serviceDate'] = get_timestamp service_date if service_date
+      options['vehicleId'] = vehicle_id if vehicle_id
+      options['stopId'] = stop_id if stop_id
+      options['code'] = code if code
+      options['userComment'] = user_comment if user_comment
+      options['userOnVehicle'] = user_on_vehicle
+      options['userVehicleNumber'] = user_vehicle_number if user_vehicle_number
+      options['userLat'] = user_location.lat if user_location
+      options['userLon'] = user_location.lon if user_location
+      options['userLocationAccuracy'] = user_location_accuracy if user_location_accuracy
+
+      request "report-problem-with-trip/#{trip_id}", options
     end
 
     def route(id)
@@ -65,6 +146,15 @@ module OneBusAway
     def route_ids_for_agency(id)
       response = request "route-ids-for-agency/#{id}"
       response['data']['list']
+    end
+
+    def schedule_for_stop(id,
+                          date: nil)
+      options = {}
+      options['date'] = date.strftime '%Y-%m-%d' if date
+
+      response = request "schedule-for-stop/#{id}"
+      StopSchedule.new response['data']['entry']
     end
 
     def shape(id)
@@ -119,6 +209,49 @@ module OneBusAway
       options['time'] = get_timestamp time if time
 
       response = request "trip-details/#{id}"
+      TripDetails.new response['data']['entry']
+    end
+
+    def trips_for_location(location,
+                           span: nil,
+                           include_trips: false,
+                           include_schedules: false,
+                           time: nil)
+      options = location.to_hash
+      options.merge! span.to_hash if span
+      options['includeTrips'] = include_trips
+      options['includeSchedules'] = include_schedules
+      options['time'] = get_timestamp time if time
+
+      response = request 'trips-for-location'
+      TripDetails.collect response['data']['list']
+    end
+
+    def trips_for_route(id,
+                        include_status: false,
+                        include_schedules: false,
+                        time: nil)
+      options = {}
+      options['includeStatus'] = include_status
+      options['includeSchedules'] = include_schedules
+      options['time'] = get_timestamp time if time
+
+      response = request "trips-for-route/#{id}"
+      TripDetails.collect response['data']['list']
+    end
+
+    def trip_for_vehicle(id,
+                         include_trip: false,
+                         include_schedule: false,
+                         include_status: true,
+                         time: nil)
+      options = {}
+      options['includeTrip'] = include_trip
+      options['includeSchedule'] = include_schedule
+      options['includeStatus'] = include_status
+      options['time'] = get_timestamp time if time
+
+      response = request "trip-for-vehicle/#{id}"
       TripDetails.new response['data']['entry']
     end
 

@@ -2,7 +2,8 @@ require_relative 'base'
 
 module OneBusAway
   class Span < Base
-    attr_reader :lat_span, :lon_span
+    attr_reader :lat_span,
+                :lon_span
 
     def initialize(attributes)
       @lat_span = attributes['latSpan']

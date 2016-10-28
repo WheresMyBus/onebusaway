@@ -2,6 +2,8 @@ require_relative 'base'
 
 module OneBusAway
   class Agency < Base
+    extend Collector
+
     attr_reader :disclaimer,
                 :email,
                 :fare_url,
@@ -24,10 +26,6 @@ module OneBusAway
       @private_service = attributes['privateService']
       @timezone = attributes['timezone']
       @url = attributes['url']
-    end
-
-    def self.collect(array)
-      array.map { |attributes| new attributes }
     end
   end
 end

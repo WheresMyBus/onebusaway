@@ -2,6 +2,8 @@ require_relative 'base'
 
 module OneBusAway
   class Trip < Base
+    extend Collector
+
     attr_reader :direction_id,
                 :id,
                 :route_id,

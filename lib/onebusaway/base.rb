@@ -1,10 +1,7 @@
-require 'active_support'
-require 'active_support/core_ext'
-
 require_relative '../helpers'
+require_relative '../collector'
 
 module OneBusAway
   class Base
-    include Helpers
   end
 end

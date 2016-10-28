@@ -2,6 +2,8 @@ require_relative 'base'
 
 module OneBusAway
   class Route < Base
+    extend Collector
+
     attr_reader :agency_id,
                 :color,
                 :description,
@@ -22,10 +24,6 @@ module OneBusAway
       @text_color = attributes['textColor']
       @type = attributes['type']
       @url = attributes['url']
-    end
-
-    def self.collect(array)
-      array.map { |attributes| new attributes }
     end
   end
 end
