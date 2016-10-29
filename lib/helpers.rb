@@ -9,7 +9,7 @@ module OneBusAway
     end
 
     def get_timestamp(time)
-      time.to_i.to_s.lsjust(13, '0')
+      time.to_i.to_s.ljust(13, '0')
     end
   end
 end
