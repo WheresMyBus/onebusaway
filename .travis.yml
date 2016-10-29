@@ -1,4 +1,11 @@
 language: ruby
+notifications:
+  email:
+    recipients:
+      - wheresmybus@u.washington.edu
+    on_success: change # options: [always|never|change]
+    on_failure: change # default: always
+
 rvm:
   - 2.2.5
 script:
