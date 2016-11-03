@@ -1,10 +1,16 @@
 Gem::Specification.new do |s|
   s.name        = 'onebusaway'
-  s.version     = '1.0.0'
   s.summary     = 'OneBusAway API Wrapper'
-  s.authors     = ['Daniel Houtsma']
-  s.email       = 'dhoutsma@uw.edu'
-  s.files       = `git ls-files lib`.split "\n"
   s.homepage    = 'http://github.com/WheresMyBus/onebusaway'
+
+  s.email       = 'dhoutsma@uw.edu'
+  s.authors     = ['Daniel Houtsma']
+
+  s.version     = '1.0.0'
+
   s.license     = 'MIT'
+
+  s.files       = `git ls-files lib`.split "\n"
+
+  s.add_runtime_dependency 'httparty', '~> 0.14.0'
 end
