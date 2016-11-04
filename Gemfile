@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'httparty'
+gemspec
 
 group :test do
   gem 'rake'
