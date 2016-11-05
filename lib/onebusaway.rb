@@ -280,10 +280,10 @@ module OneBusAway
 
     def referenced_objects(response)
       {
-        'agencies' => referenced_agencies response,
-        'routes' => referenced_routes response,
-        'stops' => referenced_stops response,
-        'trips' => referenced_trips response
+        'agencies' => referenced_agencies(response),
+        'routes' => referenced_routes(response),
+        'stops' => referenced_stops(response),
+        'trips' => referenced_trips(response)
       }
     end
 
