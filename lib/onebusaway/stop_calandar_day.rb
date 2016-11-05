@@ -8,8 +8,8 @@ module OneBusAway
                 :group
 
     def initialize(attributes)
-      @date = get_date attributes['date']
-      @group = attributes['group']
+      @date  = get_date attributes.try(:[], 'date')
+      @group = attributes.try :[], 'group'
     end
   end
 end

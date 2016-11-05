@@ -15,15 +15,15 @@ module OneBusAway
                 :url
 
     def initialize(attributes)
-      @agency_id = attributes['agencyId']
-      @color = attributes['color']
-      @description = attributes['description']
-      @id = attributes['id']
-      @long_name = attributes['longName']
-      @short_name = attributes['shortName']
-      @text_color = attributes['textColor']
-      @type = attributes['type']
-      @url = attributes['url']
+      @agency_id   = attributes.try :[], 'agencyId'
+      @color       = attributes.try :[], 'color'
+      @description = attributes.try :[], 'description'
+      @id          = attributes.try :[], 'id'
+      @long_name   = attributes.try :[], 'longName'
+      @short_name  = attributes.try :[], 'shortName'
+      @text_color  = attributes.try :[], 'textColor'
+      @type        = attributes.try :[], 'type'
+      @url         = attributes.try :[], 'url'
     end
   end
 end

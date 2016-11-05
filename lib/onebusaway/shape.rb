@@ -6,8 +6,8 @@ module OneBusAway
                 :points
 
     def initialize(attributes)
-      @length = attributes['length']
-      @points = attributes['points']
+      @length = attributes.try :[], 'length'
+      @points = attributes.try :[], 'points'
     end
   end
 end

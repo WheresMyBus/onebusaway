@@ -26,27 +26,27 @@ module OneBusAway
                 :vehicle_id
 
     def initialize(attributes)
-      @active_trip_id = attributes['activeTripId']
-      @block_trip_sequence = attributes['blockTripSequence']
-      @closest_stop = attributes['closestStop']
-      @closest_stop_time_offset = attributes['closestStopTimeOffset']
-      @distance_along_trip = attributes['disanceAlongTrip']
-      @last_known_location = Location.new attributes['lastKnownLocation'] if attributes['lastKnownLocation']
-      @last_known_orientation = attributes['lastKnownOrientation']
-      @last_update_time = get_time attributes['lastUpdateTime']
-      @next_stop = attributes['nextStop']
-      @next_stop_time_offset = attributes['nextStopTimeOffset']
-      @orientation = attributes['orientation']
-      @phase = attributes['phase']
-      @position = Location.new attributes['position'] if attributes['position']
-      @predicted = attributes['predicted']
-      @scheulded_deviation = attributes['scheduledDeviation']
-      @scheduled_distance_along_trip = attributes['scheduledDistanceAlongTrip']
-      @service_date = get_date attributes['serviceDate']
-      @situation_ids = attributes['situationIds']
-      @status = attributes['status']
-      @total_distance_along_trip = attributes['totalDistanceAlongTrip']
-      @vehicle_id = attributes['vehicleId']
+      @active_trip_id                = attributes.try :[], 'activeTripId'
+      @block_trip_sequence           = attributes.try :[], 'blockTripSequence'
+      @closest_stop                  = attributes.try :[], 'closestStop'
+      @closest_stop_time_offset      = attributes.try :[], 'closestStopTimeOffset'
+      @distance_along_trip           = attributes.try :[], 'disanceAlongTrip'
+      @next_stop                     = attributes.try :[], 'nextStop'
+      @last_known_orientation        = attributes.try :[], 'lastKnownOrientation'
+      @next_stop_time_offset         = attributes.try :[], 'nextStopTimeOffset'
+      @orientation                   = attributes.try :[], 'orientation'
+      @phase                         = attributes.try :[], 'phase'
+      @predicted                     = attributes.try :[], 'predicted'
+      @scheulded_deviation           = attributes.try :[], 'scheduledDeviation'
+      @scheduled_distance_along_trip = attributes.try :[], 'scheduledDistanceAlongTrip'
+      @situation_ids                 = attributes.try :[], 'situationIds'
+      @status                        = attributes.try :[], 'status'
+      @total_distance_along_trip     = attributes.try :[], 'totalDistanceAlongTrip'
+      @vehicle_id                    = attributes.try :[], 'vehicleId'
+      @last_update_time              = get_time attributes.try(:[], 'lastUpdateTime')
+      @service_date                  = get_date attributes.try(:[], 'serviceDate')
+      @last_known_location           = Location.new attributes.try(:[], 'lastKnownLocation')
+      @position                      = Location.new attributes.try(:[], 'position')
     end
   end
 end

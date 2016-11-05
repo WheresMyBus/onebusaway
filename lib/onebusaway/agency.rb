@@ -16,16 +16,16 @@ module OneBusAway
                 :url
 
     def initialize(attributes)
-      @disclaimer = attributes['disclaimer']
-      @email = attributes['email']
-      @fare_url = attributes['fareUrl']
-      @id = attributes['id']
-      @lang = attributes['lang']
-      @name = attributes['name']
-      @phone = attributes['phone']
-      @private_service = attributes['privateService']
-      @timezone = attributes['timezone']
-      @url = attributes['url']
+      @disclaimer      = attributes.try :[], 'disclaimer'
+      @email           = attributes.try :[], 'email'
+      @fare_url        = attributes.try :[], 'fareUrl'
+      @id              = attributes.try :[], 'id'
+      @lang            = attributes.try :[], 'lang'
+      @name            = attributes.try :[], 'name'
+      @phone           = attributes.try :[], 'phone'
+      @private_service = attributes.try :[], 'privateService'
+      @timezone        = attributes.try :[], 'timezone'
+      @url             = attributes.try :[], 'url'
     end
   end
 end

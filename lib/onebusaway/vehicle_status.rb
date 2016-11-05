@@ -12,12 +12,12 @@ module OneBusAway
                 :vehicle_id
 
     def initialize(attributes)
-      @last_location_update_time = get_time attributes['lastLocationUpdateTime']
-      @last_update = get_time attributes['lastUpdateTime']
-      @location = Location.new attributes['location']
-      @trip_id = attributes['tripId']
-      @trip_status = TripStatus.new attributes['tripStatus']
-      @vehicle_id = attributes['vehicleId']
+      @trip_id                   = attributes.try :[], 'tripId'
+      @vehicle_id                = attributes.try :[], 'vehicleId'
+      @last_location_update_time = get_time attributes.try(:[], 'lastLocationUpdateTime')
+      @last_update               = get_time attributes.try(:[], 'lastUpdateTime')
+      @location                  = Location.new attributes.try(:[], 'location')
+      @trip_status               = TripStatus.new attributes.try(:[], 'tripStatus')
     end
   end
 end

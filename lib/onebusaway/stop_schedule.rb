@@ -9,11 +9,11 @@ module OneBusAway
                 :time_zone
 
     def initialize(attributes)
-      @date = get_date attributes['date']
-      @stop_calandar_days = StopCalandarDay.collect attributes['stopCalandarDays']
-      @stop_id = attributes['stopId']
-      @stop_route_schedules = StopRouteSchedule.collect attributes['stopRouteSchedules']
-      @time_zone = attributes['timeZone']
+      @stop_id              = attributes.try :[], 'stopId'
+      @time_zone            = attributes.try :[], 'timeZone'
+      @date                 = get_date attributes.try(:[], 'date')
+      @stop_calandar_days   = StopCalandarDay.collect attributes.try(:[], 'stopCalandarDays')
+      @stop_route_schedules = StopRouteSchedule.collect attributes.try(:[], 'stopRouteSchedules')
     end
   end
 end

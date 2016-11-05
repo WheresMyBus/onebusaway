@@ -6,8 +6,8 @@ module OneBusAway
                 :lon_span
 
     def initialize(attributes)
-      @lat_span = attributes['latSpan']
-      @lon_span = attributes['lonSpan']
+      @lat_span = attributes.try :[], 'latSpan'
+      @lon_span = attributes.try :[], 'lonSpan'
     end
 
     def to_hash

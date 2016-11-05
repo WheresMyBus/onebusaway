@@ -12,12 +12,12 @@ module OneBusAway
                 :trip_id
 
     def initialize(attributes)
-      @frequency = Frequency.new attributes['frequency'] if attributes['frequency']
-      @schedule = Schedule.new attributes['schedule']
-      @service_date = get_date attributes['serviceDate']
-      @situation_ids = attributes['situationIds']
-      @status = TripStatus.new attributes['status'] if attributes['status']
-      @trip_id = attributes['tripId']
+      @situation_ids = attributes.try :[], 'situationIds'
+      @trip_id       = attributes.try :[], 'tripId'
+      @service_date  = get_date attributes.try(:[], 'serviceDate')
+      @frequency     = Frequency.new attributes.try(:[], 'frequency')
+      @schedule      = Schedule.new attributes.try(:[], 'schedule')
+      @status        = TripStatus.new attributes.try(:[], 'status')
     end
   end
 end

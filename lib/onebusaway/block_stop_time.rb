@@ -10,10 +10,10 @@ module OneBusAway
                 :stop_time
 
     def initialize(attributes)
-      @accumulated_slack_time = attributes['accumulatedSlackTime']
-      @block_sequence = attributes['blockSequence']
-      @distance_along_block = attributes['distanceAlongBlock']
-      @stop_time = StopTime.new attributes['stopTime']
+      @accumulated_slack_time = attributes.try :[], 'accumulatedSlackTime'
+      @block_sequence         = attributes.try :[], 'blockSequence'
+      @distance_along_block   = attributes.try :[], 'distanceAlongBlock'
+      @stop_time              = StopTime.new attributes.try(:[], 'stopTime')
     end
   end
 end

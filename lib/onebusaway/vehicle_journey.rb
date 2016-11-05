@@ -9,9 +9,9 @@ module OneBusAway
                 :line_id
 
     def intialize(attributes)
-      @calls = Call.collect attributes['calls']
-      @direction = attributes['direction']
-      @line_id = attributes['lineId']
+      @direction = attributes.try :[], 'direction'
+      @line_id   = attributes.try :[], 'lineId'
+      @calls     = Call.collect attributes.try(:[], 'calls')
     end
   end
 end

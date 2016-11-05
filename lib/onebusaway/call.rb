@@ -7,7 +7,7 @@ module OneBusAway
     attr_reader :stop_id
 
     def initialize(attributes)
-      @stop_id = attributes['stopId']
+      @stop_id = attributes.try :[], 'stopId'
     end
   end
 end

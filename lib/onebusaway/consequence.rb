@@ -8,8 +8,8 @@ module OneBusAway
                 :condition_details
 
     def intialize(attributes)
-      @condition = attributes['condition']
-      @condition_details = ConditionDetails.new attributes['conditionDetails'] if attributes['conditionDetails']
+      @condition         = attributes.try :[], 'condition'
+      @condition_details = ConditionDetails.new attributes.try(:[], 'conditionDetails')
     end
   end
 end

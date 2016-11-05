@@ -9,7 +9,11 @@ module OneBusAway
     end
 
     def get_timestamp(time)
-      time.to_i.to_s.ljust(13, '0')
+      time.to_i.to_s.ljust 13, '0'
+    end
+
+    def format_date(date)
+      date.strftime '%Y-%m-%d'
     end
   end
 end

@@ -26,26 +26,26 @@ module OneBusAway
                 :trip_status
 
     def initialize(attributes)
-      @arrival_enabled = attributes['arrivalEnabled']
-      @block_trip_sequence = attributes['blockTripSequence']
-      @departure_enabled = attributes['departureEnabled']
-      @distance_from_stop = attributes['distanceFromStop']
-      @frequency = Frequency.new attributes['frequency'] if attributes['frequency']
-      @number_of_stops_away = attributes['numberofStopsAway']
-      @predicted = attributes['predicted']
-      @predicted_arrival_time = get_time attributes['predictedArrivalTime']
-      @predicted_departure_time = get_time attributes['predictedDepartureTime']
-      @route_id = attributes['routeId']
-      @route_long_name = attributes['routeLongName']
-      @route_short_name = attributes['routeShortName']
-      @scheduled_arrival_time = get_time attributes['scheduledArrivalTime']
-      @scheduled_departure_time = get_time attributes['scheduledDepartureTime']
-      @service_date = get_date attributes['serviceDate']
-      @stop_id = attributes['stopId']
-      @stop_sequence = attributes['stopSequence']
-      @trip_headsign = attributes['tripHeadsign']
-      @trip_id = attributes['tripId']
-      @trip_status = TripStatus.new attributes['tripStatus'] if attributes['tripStatus']
+      @arrival_enabled          = attributes.try :[], 'arrivalEnabled'
+      @block_trip_sequence      = attributes.try :[], 'blockTripSequence'
+      @departure_enabled        = attributes.try :[], 'departureEnabled'
+      @distance_from_stop       = attributes.try :[], 'distanceFromStop'
+      @number_of_stops_away     = attributes.try :[], 'numberofStopsAway'
+      @predicted                = attributes.try :[], 'predicted'
+      @route_id                 = attributes.try :[], 'routeId'
+      @route_long_name          = attributes.try :[], 'routeLongName'
+      @route_short_name         = attributes.try :[], 'routeShortName'
+      @stop_id                  = attributes.try :[], 'stopId'
+      @stop_sequence            = attributes.try :[], 'stopSequence'
+      @trip_headsign            = attributes.try :[], 'tripHeadsign'
+      @trip_id                  = attributes.try :[], 'tripId'
+      @predicted_arrival_time   = get_time attributes.try(:[], 'predictedArrivalTime')
+      @predicted_departure_time = get_time attributes.try(:[], 'predictedDepartureTime')
+      @scheduled_arrival_time   = get_time attributes.try(:[], 'scheduledArrivalTime')
+      @scheduled_departure_time = get_time attributes.try(:[], 'scheduledDepartureTime')
+      @service_date             = get_date attributes.try(:[], 'serviceDate')
+      @frequency                = Frequency.new attributes.try(:[], 'frequency')
+      @trip_status              = TripStatus.new attributes.try(:[], 'tripStatus')
     end
   end
 end

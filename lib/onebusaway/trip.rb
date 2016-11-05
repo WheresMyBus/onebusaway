@@ -13,13 +13,13 @@ module OneBusAway
                 :trip_short_name
 
     def initialize(attributes)
-      @direction_id = attributes['directionId']
-      @id = attributes['id']
-      @route_id = attributes['routeId']
-      @service_id = attributes['serviceId']
-      @shape_id = attributes['shapeId']
-      @trip_headsign = attributes['shapeHeadsign']
-      @trip_short_name = attributes['tripShortName']
+      @direction_id    = attributes.try :[], 'directionId'
+      @id              = attributes.try :[], 'id'
+      @route_id        = attributes.try :[], 'routeId'
+      @service_id      = attributes.try :[], 'serviceId'
+      @shape_id        = attributes.try :[], 'shapeId'
+      @trip_headsign   = attributes.try :[], 'shapeHeadsign'
+      @trip_short_name = attributes.try :[], 'tripShortName'
     end
   end
 end

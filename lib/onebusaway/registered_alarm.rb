@@ -5,7 +5,7 @@ module OneBusAway
     attr_reader :alarm_id
 
     def initialize(attributes)
-      @alarm_id = attributes['alarmId']
+      @alarm_id = attributes.try :[], 'alarmId'
     end
   end
 end

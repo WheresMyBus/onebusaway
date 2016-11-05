@@ -10,10 +10,10 @@ module OneBusAway
                 :trip_id
 
     def initialize(attributes)
-      @arrival_time = get_time attributes['arrivalTime']
-      @departure_time = get_time attributes['departureTime']
-      @serviceId = attributes['serviceId']
-      @tripId = attributes['tripId']
+      @serviceId      = attributes.try :[], 'serviceId'
+      @tripId         = attributes.try :[], 'tripId'
+      @arrival_time   = get_time attributes.try(:[], 'arrivalTime')
+      @departure_time = get_time attributes.try(:[], 'departureTime')
     end
   end
 end

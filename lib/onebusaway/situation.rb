@@ -12,15 +12,15 @@ module OneBusAway
                 :summary
 
     def initialize(attributes)
-      @advice = attributes['advice']['value'] if attributes['advice']
-      @affects = VehicleJourney.collect attributes['affects']['vehicleJourneys']
-      @affects += Stop.collect attributes['affects']['stops']
-      @consequences = Consequence.collect attributes['consequences']
-      @creation_time = get_time attributes['creationTime']
-      @description = attributes['description']['value'] if attributes['description']
-      @environment_reason = attributes['environmentReason']
-      @id = attributes['id']
-      @summary = attributes['summary']['value'] if attributes['summary']
+      @advice             = attributes.dig 'advice', 'value'
+      @description        = attributes.dig 'description', 'value'
+      @summary            = attributes.dig 'summary', 'value'
+      @environment_reason = attributes.try :[], 'environmentReason'
+      @id                 = attributes.try :[], 'id'
+      @creation_time      = get_time attributes.try :[], 'creationTime'
+      @consequences       = Consequence.collect attributes.try :[], 'consequences'
+      @affects            = VehicleJourney.collect attributes.dig('affects', 'vehicleJourneys')
+      @affects            += Stop.collect attributes.dig('affects', 'stops')
     end
   end
 end

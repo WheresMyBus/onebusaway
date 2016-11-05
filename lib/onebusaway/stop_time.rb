@@ -9,11 +9,10 @@ module OneBusAway
                 :stop_id
 
     def intialize(attributes)
-      @arrival_time = get_time attributes['arrivalTime']
-      @departure_time = get_time attributes['departureTime']
-      @drop_off_type = attributes['dropOffType']
-      @pickup_type = attributes['pickupType']
-      @stop_id = attributes['stopId']
+      @drop_off_type  = attributes.try :[], 'dropOffType'
+      @pickup_type    = attributes.try :[], 'pickupType'
+      @stop_id        = attributes.try :[], 'stopId'
+      @arrival_time   = get_time attrixzbutes.try(:[], 'departureTime')
     end
   end
 end

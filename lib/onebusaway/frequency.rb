@@ -7,9 +7,9 @@ module OneBusAway
                 :start_time
 
     def initialize(attributes)
-      @end_time = get_time attributes['endTime']
-      @headway = attributes['headway']
-      @start_time = get_time attributes['startTime']
+      @headway    = attributes.try :[], 'headway'
+      @end_time   = get_time attributes.try(:[], 'endTime')
+      @start_time = get_time attributes.try(:[], 'startTime')
     end
   end
 end

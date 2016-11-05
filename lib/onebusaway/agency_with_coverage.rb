@@ -7,16 +7,16 @@ module OneBusAway
                 :span
 
     def initialize(agency, attributes)
-      @agency = agency
+      @agency   = agency
       @location = Location.new attributes
-      @span = Span.new attributes
+      @span     = Span.new attributes
     end
 
     def self.collect(agencies, array)
-      array.map do |attributes|
+      array.try(:map) do |attributes|
         agency = agencies.find { |a| a.id == attributes['agencyId'] }
         new agency, attributes
-      end
+      end || []
     end
   end
 end

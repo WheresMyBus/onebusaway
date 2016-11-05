@@ -8,8 +8,8 @@ module OneBusAway
                 :stop_route_direction_schedule
 
     def initialize(attributes)
-      @route_id = attributes['routeId']
-      @stop_route_direction_schdule = StopRouteDirectionSchedule.collect attributes['stopRouteDirectionSchedule']
+      @route_id                     = attributes.try :[], 'routeId'
+      @stop_route_direction_schdule = StopRouteDirectionSchedule.collect attributes.try(:[], 'stopRouteDirectionSchedule')
     end
   end
 end

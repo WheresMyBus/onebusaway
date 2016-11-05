@@ -8,8 +8,8 @@ module OneBusAway
                 :trip_headsign
 
     def initializer(attributes)
-      @schedule_stop_times = ScheduleStopTime.collect attributes['scheduleStopTimes']
-      @trip_headsign = attributes['tripHeadsign']
+      @trip_headsign       = attributes.try :[], 'tripHeadsign'
+      @schedule_stop_times = ScheduleStopTime.collect attributes.try(:[], 'scheduleStopTimes')
     end
   end
 end

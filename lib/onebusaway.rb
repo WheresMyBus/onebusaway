@@ -11,13 +11,13 @@ module OneBusAway
 
     def agency(id)
       response = request "agency/#{id}"
-      Agency.new response['data']['entry']
+      Agency.new response.dig('data', 'entry')
     end
 
     def agencies_with_coverage
       response = request 'agencies-with-coverage'
       agencies = referenced_agencies response
-      AgencyWithCoverage.collect agencies, response['data']['list']
+      AgencyWithCoverage.collect agencies, response.dig('data', 'list')
     end
 
     def arrival_and_departure_for_stop(id,
@@ -34,7 +34,7 @@ module OneBusAway
       options['time'] = get_timestamp time if time
 
       response = request "arrival-and-departure-for-stop/#{id}", options
-      ArrivalAndDeparture.new response['data']['entry']
+      ArrivalAndDeparture.new response.dig('data', 'entry')
     end
 
     def arrivals_and_departures_for_stop(id,
@@ -47,7 +47,7 @@ module OneBusAway
       options['time'] = get_timestamp time if time
 
       response = request "arrivals-and-departures-for-stop/#{id}", options
-      ArrivalAndDeparture.collect response['data']['entry']['arrivalsAndDepartures']
+      ArrivalAndDeparture.collect response.dig('data', 'entry', 'arrivalsAndDepartures')
     end
 
     def cancel_alarm(id)
@@ -56,7 +56,7 @@ module OneBusAway
 
     def current_time
       response = request 'current-time'
-      get_time response['data']['entry']['time']
+      get_time response.dig('data', 'entry', 'time')
     end
 
     def register_alarm_for_arrival_and_departure_at_stop(id,
@@ -77,7 +77,7 @@ module OneBusAway
       options['onArrival'] = on_arrival
 
       response = request "register-alarm-for-arrival-and-departure-at-stop/#{id}", options
-      RegisteredAlarm.new response['data']['entry']
+      RegisteredAlarm.new response.dig('data', 'entry')
     end
 
     def report_problem_with_stop(stop_id,
@@ -122,12 +122,12 @@ module OneBusAway
 
     def route(id)
       response = request "route/#{id}"
-      Route.new response['data']['entry']
+      Route.new response.dig('data', 'entry')
     end
 
     def routes_for_agency(id)
       response = request "routes-for-agency/#{id}"
-      Route.collect response['data']['list']
+      Route.collect response.dig('data', 'list')
     end
 
     def routes_for_location(location,
@@ -140,31 +140,31 @@ module OneBusAway
       options['query'] = query if query
 
       response = request 'routes-for-location', options
-      Route.collect response['data']['list']
+      Route.collect response.dig('data', 'list')
     end
 
     def route_ids_for_agency(id)
       response = request "route-ids-for-agency/#{id}"
-      response['data']['list']
+      response.dig('data', 'list')
     end
 
     def schedule_for_stop(id,
                           date: nil)
       options = {}
-      options['date'] = date.strftime '%Y-%m-%d' if date
+      options['date'] = format_date date if date
 
       response = request "schedule-for-stop/#{id}"
-      StopSchedule.new response['data']['entry']
+      StopSchedule.new response.dig('data', 'entry')
     end
 
     def shape(id)
       response = request "shape/#{id}"
-      Shape.new response['data']['entry']
+      Shape.new response.dig('data', 'entry')
     end
 
     def stop(id)
       response = request "stop/#{id}"
-      Stop.new response['data']['entry']
+      Stop.new response.dig('data', 'entry')
     end
 
     def stops_for_location(location,
@@ -177,22 +177,22 @@ module OneBusAway
       options['query'] = query if query
 
       response = request 'stops-for-location', options
-      Stop.collect response['data']['list']
+      Stop.collect response.dig('data', 'list')
     end
 
     def stop_ids_for_agency(id)
       response = request "stop-ids-for-agency/#{id}"
-      response['data']['list']
+      response.dig('data', 'list')
     end
 
     def stops_for_route(id)
       response = request "stops-for-route/#{id}"
-      response['data']['entry']['stopIds']
+      response.dig('data', 'entry', 'stopIds')
     end
 
     def trip(id)
       response = request "trip/#{id}"
-      Trip.new response['data']['entry']
+      Trip.new response.dig('data', 'entry')
     end
 
     def trip_details(id,
@@ -209,7 +209,7 @@ module OneBusAway
       options['time'] = get_timestamp time if time
 
       response = request "trip-details/#{id}"
-      TripDetails.new response['data']['entry']
+      TripDetails.new response.dig('data', 'entry')
     end
 
     def trips_for_location(location,
@@ -224,7 +224,7 @@ module OneBusAway
       options['time'] = get_timestamp time if time
 
       response = request 'trips-for-location'
-      TripDetails.collect response['data']['list']
+      TripDetails.collect response.dig('data', 'list')
     end
 
     def trips_for_route(id,
@@ -237,7 +237,7 @@ module OneBusAway
       options['time'] = get_timestamp time if time
 
       response = request "trips-for-route/#{id}"
-      TripDetails.collect response['data']['list']
+      TripDetails.collect response.dig('data', 'list')
     end
 
     def trip_for_vehicle(id,
@@ -252,7 +252,7 @@ module OneBusAway
       options['time'] = get_timestamp time if time
 
       response = request "trip-for-vehicle/#{id}"
-      TripDetails.new response['data']['entry']
+      TripDetails.new response.dig('data', 'entry')
     end
 
     def vehicles_for_agency(id, time: nil)
@@ -260,7 +260,7 @@ module OneBusAway
       options['time'] = get_timestamp time if time
 
       response = request "vehicles-for-agency/#{id}", options
-      VehicleStatus.collect response['data']['list']
+      VehicleStatus.collect response.dig('data', 'list')
     end
 
     private
@@ -268,22 +268,22 @@ module OneBusAway
     BASE_URL = 'http://api.onebusaway.org/api/where/'.freeze
 
     def request(call, options = {})
-      options[:key] = @api_key || 'TEST'
+      options['key'] = @api_key || 'TEST'
       response = HTTParty.get "#{BASE_URL}#{call}.json", query: options
       JSON.parse response.body
     end
 
     def references(response, type = nil)
-      references = response['data']['references']
+      references = response.dig('data', 'references')
       references.fetch type, references
     end
 
     def referenced_objects(response)
       {
-        'agencies' => referenced_agencies(response),
-        'routes' => referenced_routes(response),
-        'stops' => referenced_stops(response),
-        'trips' => referenced_trips(response)
+        'agencies' => referenced_agencies response,
+        'routes' => referenced_routes response,
+        'stops' => referenced_stops response,
+        'trips' => referenced_trips response
       }
     end
 

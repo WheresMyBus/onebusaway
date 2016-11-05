@@ -6,8 +6,8 @@ module OneBusAway
                 :diversion_stop_ids
 
     def initialize(attributes)
-      @diversion_path = DiversionPath.new attributes['diversionPath']
-      @diversion_stop_ids = attributes['diversionStopIds']
+      @diversion_stop_ids = attributes.try :[], 'diversionStopIds'
+      @diversion_path     = DiversionPath.new attributes.try(:[], 'diversionPath')
     end
   end
 end

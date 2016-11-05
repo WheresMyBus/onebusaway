@@ -10,10 +10,10 @@ module OneBusAway
                 :trip_id
 
     def initialize(attributes)
-      @accumulated_slack_time = attributes['accumulatedSlackTime']
-      @block_stop_times = BlockStopTime.collect attributes['blockStopTimes']
-      @distance_along_block = attributes['distanceAlongBlock']
-      @trip_id = attributes['tripId']
+      @accumulated_slack_time = attributes.try :[], 'accumulatedSlackTime'
+      @distance_along_block   = attributes.try :[], 'distanceAlongBlock'
+      @trip_id                = attributes.try :[], 'tripId'
+      @block_stop_times       = BlockStopTime.collect attributes.try(:[], 'blockStopTimes')
     end
   end
 end

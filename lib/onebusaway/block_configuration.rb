@@ -7,9 +7,9 @@ module OneBusAway
                 :trips
 
     def initialize(attributes)
-      @active_service_ids = attributes['activeServiceIds']
-      @inactive_service_ids = attributes['inactiveServiceIds']
-      @trips = BlockTrip.collect attributes['trips']
+      @active_service_ids   = attributes.try :[], 'activeServiceIds'
+      @inactive_service_ids = attributes.try :[], 'inactiveServiceIds'
+      @trips                = BlockTrip.collect attributes.try(:[], 'trips')
     end
   end
 end

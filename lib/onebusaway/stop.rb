@@ -14,14 +14,14 @@ module OneBusAway
                 :wheelchair_boarding
 
     def initialize(attributes)
-      @code = attributes['code']
-      @direction = attributes['direction']
-      @id = attributes['id']
-      @location = Location.new attributes
-      @location_type = attributes['locationType']
-      @name = attributes['name']
-      @route_ids = attributes['routeIds']
-      @wheelchair_boarding = attributes['wheelchairBoarding']
+      @code                = attributes.try :[], 'code'
+      @direction           = attributes.try :[], 'direction'
+      @id                  = attributes.try :[], 'id'
+      @location_type       = attributes.try :[], 'locationType'
+      @name                = attributes.try :[], 'name'
+      @route_ids           = attributes.try :[], 'routeIds'
+      @wheelchair_boarding = attributes.try :[], 'wheelchairBoarding'
+      @location            = Location.new attributes
     end
   end
 end
