@@ -260,7 +260,7 @@ module OneBusAway
       options = {}
       options['date'] = format_date date if date
 
-      response = request "schedule-for-stop/#{id}"
+      response = request "schedule-for-stop/#{id}", options
       StopSchedule.new response.dig('data', 'entry')
     end
 
@@ -352,7 +352,7 @@ module OneBusAway
       options['includeStatus'] = include_status
       options['time'] = get_timestamp time if time
 
-      response = request "trip-details/#{id}"
+      response = request "trip-details/#{id}", options
       TripDetails.new response.dig('data', 'entry')
     end
 
@@ -375,7 +375,7 @@ module OneBusAway
       options['includeSchedules'] = include_schedules
       options['time'] = get_timestamp time if time
 
-      response = request 'trips-for-location'
+      response = request 'trips-for-location', options
       TripDetails.collect response.dig('data', 'list')
     end
 
@@ -395,7 +395,7 @@ module OneBusAway
       options['includeSchedules'] = include_schedules
       options['time'] = get_timestamp time if time
 
-      response = request "trips-for-route/#{id}"
+      response = request "trips-for-route/#{id}", options
       TripDetails.collect response.dig('data', 'list')
     end
 
@@ -418,7 +418,7 @@ module OneBusAway
       options['includeStatus'] = include_status
       options['time'] = get_timestamp time if time
 
-      response = request "trip-for-vehicle/#{id}"
+      response = request "trip-for-vehicle/#{id}", options
       TripDetails.new response.dig('data', 'entry')
     end
 

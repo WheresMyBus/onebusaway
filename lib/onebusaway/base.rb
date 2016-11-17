@@ -6,5 +6,6 @@ require_relative '../collector'
 
 module OneBusAway
   class Base
+    include Helpers
   end
 end
