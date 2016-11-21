@@ -9,4 +9,5 @@ group :test do
   gem 'minitest'
   gem 'webmock'
   gem 'vcr'
+  gem 'rspec-rails'
 end
