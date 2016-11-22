@@ -1,0 +1,38 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.onebusaway.org/api/where/route/1_100300.json?key=TEST
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Etag:
+      - '2045460376'
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '570'
+      Date:
+      - Tue, 22 Nov 2016 01:49:15 GMT
+    body:
+      encoding: UTF-8
+      string: '{"code":200,"currentTime":1479779356531,"data":{"entry":{"agencyId":"1","color":"","description":"Pacific
+        to Algona to Auburn Station","id":"1_100300","longName":"","shortName":"917","textColor":"","type":3,"url":"http://metro.kingcounty.gov/schedules/917/n0.html"},"references":{"agencies":[{"disclaimer":"","email":"","fareUrl":"","id":"1","lang":"EN","name":"Metro
+        Transit","phone":"206-553-3000","privateService":false,"timezone":"America/Los_Angeles","url":"http://metro.kingcounty.gov"}],"routes":[],"situations":[],"stops":[],"trips":[]}},"text":"OK","version":2}'
+    http_version: 
+  recorded_at: Tue, 22 Nov 2016 01:49:16 GMT
+recorded_with: VCR 3.0.3
