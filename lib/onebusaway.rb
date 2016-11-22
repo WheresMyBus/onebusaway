@@ -289,17 +289,25 @@ module OneBusAway
     # - radius [optional] : the search radius in meters
     # - span [optional] : an alternative to radius to set the search bounding box
     # - query [optional] : a specific stop code to search for
+    # - include_routes [optional] : include referenced routes
     def stops_for_location(location,
                            radius: nil,
                            span: nil,
-                           query: nil)
+                           query: nil,
+                           include_routes: false)
       options = location.to_hash
       options['radius'] = radius if radius
       options.merge! span.to_hash if span
       options['query'] = query if query
 
       response = request 'stops-for-location', options
-      Stop.collect response.dig('data', 'list')
+      stops = Stop.collect response.dig('data', 'list')
+
+      if include_routes
+        [stops, referenced_routes(response)]
+      else
+        stops
+      end
     end
 
     # # Retrieve the list of all stops for a particular agency by id
