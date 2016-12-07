@@ -207,13 +207,8 @@ module OneBusAway
     # Params
     # - id : the id of the route
     def route(id)
-      loop do
-        response = request "route/#{id}"
-        route = Route.new response.dig('data', 'entry')
-        break unless route.id.nil?
-      end
-
-      route
+      response = request "route/#{id}"
+      Route.new response.dig('data', 'entry')
     end
 
     # Retrieve the list of all routes for a particular agency by id.
