@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.email       = 'dhoutsma@uw.edu'
   s.authors     = ['Daniel Houtsma']
 
-  s.version     = '1.0.3'
+  s.version     = '1.0.4'
 
   s.license     = 'MIT'
 
